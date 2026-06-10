@@ -154,7 +154,7 @@
               <div class="stat-label">QA CRITERIA</div>
             </div>
             <div class="stat">
-              <div class="stat-num">2025</div>
+              <div class="stat-num">2026</div>
               <div class="stat-label">ACADEMIC YEAR</div>
             </div>
             <div class="stat">
