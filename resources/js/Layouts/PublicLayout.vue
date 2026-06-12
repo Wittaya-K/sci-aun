@@ -12,7 +12,8 @@
           </svg>
         </button>
 
-        <img src="/images/psu-logo.jpg" alt="PSU" class="flex-shrink-0 w-auto h-7 sm:h-8" />
+        <!-- <img src="/images/psu-logo.jpg" alt="PSU" class="flex-shrink-0 w-auto h-7 sm:h-8" /> -->
+        <img src="/images/psu-logo.png" alt="PSU" class="flex-shrink-0 w-auto h-7 sm:h-8" />
         <div class="min-w-0">
           <div class="text-[10px] sm:text-xs leading-none text-gray-400 truncate">คณะวิทยาศาสตร์ มหาวิทยาลัยสงขลานครินทร์</div>
           <div class="text-xs font-semibold leading-tight truncate sm:text-sm text-primary-500">AUN-QA Evidence</div>
