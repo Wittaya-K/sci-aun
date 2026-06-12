@@ -3,22 +3,22 @@
     <Head :title="item ? `แก้ไข · ${item.title}` : 'เพิ่ม Item'" />
 
     <!-- Breadcrumb -->
-    <div class="flex items-center gap-2 mb-6 text-sm text-gray-400">
+    <div class="flex items-center gap-2 mb-4 overflow-x-auto text-xs text-gray-400 sm:text-sm sm:mb-6 whitespace-nowrap">
       <Link :href="route('admin.criteria.sub-criteria.index', criteria.id)"
-            class="transition-colors hover:text-primary-500">AUN {{ criteria.number }}</Link>
-      <span>/</span>
+            class="flex-shrink-0 transition-colors hover:text-primary-500">AUN {{ criteria.number }}</Link>
+      <span class="flex-shrink-0">/</span>
       <Link :href="route('admin.criteria.sub-criteria.items.index', [criteria.id, subCriteria.id])"
-            class="transition-colors hover:text-primary-500">{{ subCriteria.number }}</Link>
-      <span>/</span>
-      <span class="text-gray-700">{{ item ? 'แก้ไข' : 'เพิ่ม Item' }}</span>
+            class="flex-shrink-0 transition-colors hover:text-primary-500">{{ subCriteria.number }}</Link>
+      <span class="flex-shrink-0">/</span>
+      <span class="flex-shrink-0 text-gray-700">{{ item ? 'แก้ไข' : 'เพิ่ม Item' }}</span>
     </div>
 
     <div class="max-w-3xl">
-      <h1 class="mb-6 text-lg font-semibold text-gray-900">
+      <h1 class="mb-4 text-base font-semibold text-gray-900 sm:text-lg sm:mb-6">
         {{ item ? 'แก้ไข Item' : 'เพิ่ม Item ใหม่' }}
       </h1>
 
-      <form @submit.prevent="submit" class="space-y-6">
+      <form @submit.prevent="submit" class="space-y-5 sm:space-y-6">
 
         <!-- Title -->
         <div>
@@ -39,7 +39,7 @@
         <!-- Save button -->
         <div class="flex items-center gap-3 pt-2">
           <button type="submit" :disabled="form.processing"
-                  class="px-6 py-2 text-sm font-medium text-white transition-colors rounded-lg bg-primary-500 hover:bg-primary-600 disabled:opacity-50">
+                  class="px-5 py-2 text-sm font-medium text-white transition-colors rounded-lg sm:px-6 bg-primary-500 hover:bg-primary-600 disabled:opacity-50">
             {{ form.processing ? 'กำลังบันทึก...' : 'บันทึก' }}
           </button>
           <Link :href="route('admin.criteria.sub-criteria.items.index', [criteria.id, subCriteria.id])"
@@ -50,15 +50,15 @@
       </form>
 
       <!-- ─── Attachments (แสดงหลัง save แล้วเท่านั้น) ─── -->
-      <div v-if="item" class="pt-8 mt-10 border-t border-gray-200">
-        <h2 class="mb-4 text-base font-semibold text-gray-900">ไฟล์แนบ</h2>
+      <div v-if="item" class="pt-6 mt-8 border-t border-gray-200 sm:mt-10 sm:pt-8">
+        <h2 class="mb-4 text-sm font-semibold text-gray-900 sm:text-base">ไฟล์แนบ</h2>
 
         <!-- Upload area -->
-        <div class="grid grid-cols-2 gap-4 mb-6">
+        <div class="grid grid-cols-1 gap-3 mb-6 sm:grid-cols-2 sm:gap-4">
           <!-- Image upload -->
           <div>
             <p class="mb-2 text-xs font-medium text-gray-500">รูปภาพ (JPG, PNG, WEBP)</p>
-            <label class="flex flex-col items-center justify-center h-24 transition-colors border-2 border-gray-200 border-dashed rounded-lg cursor-pointer hover:border-primary-300 hover:bg-primary-50">
+            <label class="flex flex-col items-center justify-center h-20 transition-colors border-2 border-gray-200 border-dashed rounded-lg cursor-pointer sm:h-24 hover:border-primary-300 hover:bg-primary-50">
               <svg class="w-6 h-6 mb-1 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                       d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -70,7 +70,7 @@
           <!-- PDF upload -->
           <div>
             <p class="mb-2 text-xs font-medium text-gray-500">PDF (More Information)</p>
-            <label class="flex flex-col items-center justify-center h-24 transition-colors border-2 border-gray-200 border-dashed rounded-lg cursor-pointer hover:border-red-200 hover:bg-red-50">
+            <label class="flex flex-col items-center justify-center h-20 transition-colors border-2 border-gray-200 border-dashed rounded-lg cursor-pointer sm:h-24 hover:border-red-200 hover:bg-red-50">
               <svg class="w-6 h-6 mb-1 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                       d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
@@ -95,18 +95,17 @@
           <!-- Images -->
           <div v-if="images.length > 0">
             <p class="mb-2 text-xs font-semibold tracking-widest text-gray-400 uppercase">รูปภาพ</p>
-            <div class="grid grid-cols-3 gap-3 mb-4">
+            <div class="grid grid-cols-2 gap-2 mb-4 sm:grid-cols-3 sm:gap-3">
               <div v-for="att in images" :key="att.id"
                    class="relative overflow-hidden border border-gray-200 rounded-lg group bg-gray-50">
                 <img :src="att.url" :alt="att.caption || att.filename" class="object-cover w-full h-24" />
-                <div class="absolute inset-0 flex items-center justify-center transition-colors bg-black/0 group-hover:bg-black/30">
-                  <button type="button" @click="deleteAttachment(att)"
-                          class="opacity-0 group-hover:opacity-100 p-1.5 bg-red-500 text-white rounded-full transition-opacity">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                  </button>
-                </div>
+                <!-- Mobile: always-visible delete button -->
+                <button type="button" @click="deleteAttachment(att)"
+                        class="absolute p-1 text-white transition-opacity rounded-full top-1 right-1 bg-red-500/90 sm:opacity-0 sm:group-hover:opacity-100">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                </button>
                 <p v-if="att.caption" class="text-[10px] text-gray-400 text-center px-1 py-1 truncate">{{ att.caption }}</p>
               </div>
             </div>
@@ -117,7 +116,7 @@
             <p class="mb-2 text-xs font-semibold tracking-widest text-gray-400 uppercase">PDF</p>
             <div class="space-y-2">
               <div v-for="att in pdfs" :key="att.id"
-                   class="flex items-center gap-3 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg">
+                   class="flex items-center gap-2 sm:gap-3 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg">
                 <div class="flex items-center justify-center flex-shrink-0 rounded w-7 h-7 bg-red-50">
                   <svg class="w-4 h-4 text-red-400" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5z"/>
@@ -155,11 +154,10 @@ import axios from 'axios'
 const props = defineProps({
   criteria:    Object,
   subCriteria: Object,
-  item:        Object,   // null = create mode
+  item:        Object,
   allCriteria: Array,
 })
 
-// ── Form ─────────────────────────────────────────────────────
 const form = useForm({
   title:      props.item?.title      || '',
   body:       props.item?.body       || '',
@@ -180,7 +178,6 @@ function submit() {
   }
 }
 
-// ── Attachments ──────────────────────────────────────────────
 const attachments = ref(props.item?.attachments || [])
 const uploading   = ref(false)
 

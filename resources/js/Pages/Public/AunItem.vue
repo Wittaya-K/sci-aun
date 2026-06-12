@@ -2,47 +2,47 @@
   <PublicLayout :allCriteria="allCriteria" :currentNum="currentNum">
     <Head :title="item.title" />
 
-    <div class="max-w-4xl px-6 py-8 mx-auto">
+    <div class="max-w-4xl px-4 py-6 mx-auto sm:px-6 sm:py-8">
 
       <!-- Breadcrumb / back -->
-      <div class="flex items-center gap-2 mb-6 text-sm text-gray-400">
+      <div class="flex items-center gap-1.5 sm:gap-2 mb-4 sm:mb-6 text-xs sm:text-sm text-gray-400 overflow-hidden">
         <Link
           :href="route('aun.show', criteria.number)"
-          class="flex items-center gap-1 transition-colors hover:text-primary-500"
+          class="flex items-center flex-shrink-0 gap-1 transition-colors hover:text-primary-500"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
           </svg>
           AUN {{ criteria.number }}
         </Link>
-        <span>/</span>
-        <span class="font-medium text-primary-400">{{ subCriteria.number }}</span>
-        <span>/</span>
-        <span class="max-w-xs text-gray-500 truncate">{{ item.title }}</span>
+        <span class="flex-shrink-0">/</span>
+        <span class="flex-shrink-0 font-medium text-primary-400">{{ subCriteria.number }}</span>
+        <span class="flex-shrink-0 hidden sm:inline">/</span>
+        <span class="hidden text-gray-500 truncate sm:inline">{{ item.title }}</span>
       </div>
 
       <!-- Item header -->
-      <div class="pb-5 mb-6 border-b border-gray-200">
+      <div class="pb-4 mb-5 border-b border-gray-200 sm:mb-6 sm:pb-5">
         <div class="flex items-center gap-2 mb-2">
           <span class="text-xs font-semibold text-primary-500 bg-primary-50 px-2 py-0.5 rounded">
             {{ subCriteria.number }}
           </span>
-          <span class="text-xs text-gray-400">{{ subCriteria.title }}</span>
         </div>
-        <h1 class="text-xl font-semibold text-gray-900">{{ item.title }}</h1>
+        <p class="text-xs text-gray-400 mb-1.5 leading-relaxed">{{ subCriteria.title }}</p>
+        <h1 class="text-lg font-semibold leading-snug text-gray-900 sm:text-xl">{{ item.title }}</h1>
       </div>
 
       <!-- Rich text body -->
       <div
         v-if="item.body"
-        class="mb-8 prose-sm prose text-gray-700 max-w-none prose-headings:text-gray-800 prose-a:text-primary-500 prose-a:no-underline hover:prose-a:underline prose-li:marker:text-primary-400"
+        class="mb-6 prose-sm prose text-gray-700 sm:prose-base max-w-none prose-headings:text-gray-800 prose-a:text-primary-500 prose-a:no-underline hover:prose-a:underline prose-a:break-words prose-li:marker:text-primary-400 prose-img:rounded-lg sm:mb-8"
         v-html="item.body"
       />
 
       <!-- Images -->
-      <div v-if="item.images && item.images.length > 0" class="mb-8">
+      <div v-if="item.images && item.images.length > 0" class="mb-6 sm:mb-8">
         <h2 class="mb-3 text-xs font-semibold tracking-widest text-gray-400 uppercase">รูปภาพประกอบ</h2>
-        <div class="grid gap-4" :class="item.images.length > 1 ? 'grid-cols-2' : 'grid-cols-1'">
+        <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
           <div
             v-for="img in item.images"
             :key="img.id"
@@ -51,7 +51,8 @@
             <img
               :src="img.url"
               :alt="img.caption || item.title"
-              class="object-contain w-full max-h-80"
+              class="object-contain w-full max-h-64 sm:max-h-80"
+              loading="lazy"
             />
             <p v-if="img.caption" class="px-3 py-2 text-xs text-center text-gray-400">
               {{ img.caption }}
@@ -61,7 +62,7 @@
       </div>
 
       <!-- More Information (PDF) -->
-      <div v-if="item.pdfs && item.pdfs.length > 0" class="pt-6 mt-8 border-t border-gray-100">
+      <div v-if="item.pdfs && item.pdfs.length > 0" class="pt-5 mt-6 border-t border-gray-100 sm:mt-8 sm:pt-6">
         <h2 class="mb-3 text-xs font-semibold tracking-widest text-gray-400 uppercase">
           More Information
         </h2>
@@ -72,7 +73,7 @@
             :href="route('aun.item.pdf', { number: criteria.number, item: item.id, attachment: pdf.id })"
             target="_blank"
             rel="noopener noreferrer"
-            class="flex items-center gap-3 px-4 py-3 transition-colors bg-white border border-gray-200 rounded-lg hover:border-red-300 hover:bg-red-50 group"
+            class="flex items-center gap-3 px-3 sm:px-4 py-3 bg-white border border-gray-200 rounded-lg hover:border-red-300 hover:bg-red-50 transition-colors group active:scale-[0.99]"
           >
             <!-- PDF icon -->
             <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 transition-colors rounded bg-red-50 group-hover:bg-red-100">
