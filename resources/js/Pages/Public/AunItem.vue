@@ -35,7 +35,7 @@
       <!-- Rich text body -->
       <div
         v-if="item.body"
-        class="mb-6 prose-sm prose text-gray-700 sm:prose-base max-w-none prose-headings:text-gray-800 prose-a:text-primary-500 prose-a:no-underline hover:prose-a:underline prose-a:break-words prose-li:marker:text-primary-400 prose-img:rounded-lg sm:mb-8"
+        class="mb-6 prose-sm prose text-gray-700 sm:prose-base max-w-none prose-headings:text-gray-800 prose-a:text-primary-500 prose-a:no-underline hover:prose-a:underline prose-a:break-words prose-li:marker:text-primary-400 prose-img:rounded-lg sm:mb-8 aun-body"
         v-html="item.body"
       />
 
@@ -61,35 +61,29 @@
         </div>
       </div>
 
-      <!-- More Information (PDF) -->
-      <div v-if="item.pdfs && item.pdfs.length > 0" class="pt-5 mt-6 border-t border-gray-100 sm:mt-8 sm:pt-6">
+      <!-- More Information (เอกสารแนบ: PDF / Word / Excel / PowerPoint) -->
+      <div v-if="item.documents && item.documents.length > 0" class="pt-5 mt-6 border-t border-gray-100 sm:mt-8 sm:pt-6">
         <h2 class="mb-3 text-xs font-semibold tracking-widest text-gray-400 uppercase">
           More Information
         </h2>
         <div class="space-y-2">
           <a
-            v-for="pdf in item.pdfs"
-            :key="pdf.id"
-            :href="route('aun.item.pdf', { number: criteria.number, item: item.id, attachment: pdf.id })"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="flex items-center gap-3 px-3 sm:px-4 py-3 bg-white border border-gray-200 rounded-lg hover:border-red-300 hover:bg-red-50 transition-colors group active:scale-[0.99]"
+            v-for="doc in item.documents"
+            :key="doc.id"
+            :href="doc.url"
+            :download="doc.filename"
+            class="flex items-center gap-3 px-3 sm:px-4 py-3 bg-white border border-gray-200 rounded-lg hover:border-primary-300 hover:bg-primary-50 transition-colors group active:scale-[0.99]"
           >
-            <!-- PDF icon -->
-            <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 transition-colors rounded bg-red-50 group-hover:bg-red-100">
-              <svg class="w-4 h-4 text-red-400" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM8.5 17.5h-1v-5h1.8c1.1 0 1.7.6 1.7 1.5 0 1-.7 1.6-1.8 1.6H8.5v1.9zm0-2.8h.7c.5 0 .8-.2.8-.7 0-.4-.3-.6-.8-.6H8.5v1.3zm5.3 2.8h-1.6v-5h1.6c1.5 0 2.5 1 2.5 2.5s-1 2.5-2.5 2.5zm-.6-4.1v3.2h.5c.9 0 1.5-.6 1.5-1.6s-.6-1.6-1.5-1.6h-.5zm5.3-.9v1h-1.8v1h1.6v.9h-1.6v2.1H15v-5h3.5v1z"/>
-              </svg>
-            </div>
+            <FileIcon :filename="doc.filename" />
             <div class="flex-1 min-w-0">
-              <p class="text-sm text-gray-700 truncate group-hover:text-red-700">
-                {{ pdf.caption || pdf.filename }}
+              <p class="text-sm text-gray-700 truncate group-hover:text-primary-700">
+                {{ doc.caption || doc.filename }}
               </p>
-              <p class="text-xs text-gray-400">เปิดใน browser</p>
+              <p class="text-xs text-gray-400">ดาวน์โหลด</p>
             </div>
-            <!-- External link icon -->
-            <svg class="flex-shrink-0 w-4 h-4 text-gray-300 group-hover:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            <!-- Download icon -->
+            <svg class="flex-shrink-0 w-4 h-4 text-gray-300 group-hover:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
           </a>
         </div>
@@ -102,6 +96,7 @@
 <script setup>
 import { Head, Link } from '@inertiajs/vue3'
 import PublicLayout from '@/Layouts/PublicLayout.vue'
+import FileIcon from '@/Components/FileIcon.vue'
 
 defineProps({
   criteria:    Object,
@@ -111,3 +106,38 @@ defineProps({
   currentNum:  Number,
 })
 </script>
+
+<style scoped>
+/* Table styles สำหรับเนื้อหาที่ render จาก v-html */
+:deep(.aun-body table) {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+  margin: 1rem 0;
+  font-size: 0.875rem;
+}
+:deep(.aun-body td),
+:deep(.aun-body th) {
+  border: 1px solid #e5e7eb;
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+:deep(.aun-body th) {
+  background-color: #f9fafb;
+  font-weight: 600;
+  color: #374151;
+}
+:deep(.aun-body tr:nth-child(even)) {
+  background-color: #fafafa;
+}
+
+/* Mobile: ตารางเลื่อนแนวนอนได้ */
+@media (max-width: 640px) {
+  :deep(.aun-body table) {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+</style>

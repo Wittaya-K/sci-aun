@@ -111,14 +111,19 @@ class AunItemController extends Controller
         ])->with('success', 'ลบ item เรียบร้อยแล้ว');
     }
 
+    /**
+     * Upload attachment — รองรับ:
+     *   type=image    → jpg, jpeg, png, webp, gif
+     *   type=document → pdf, doc, docx, xls, xlsx, ppt, pptx
+     */
     public function uploadAttachment(Request $request, AunCriteria $aunCriteria, AunSubCriteria $aunSubCriteria, AunItem $aunItem)
     {
         abort_if($aunSubCriteria->aun_criteria_id !== $aunCriteria->id, 404);
         abort_if($aunItem->aun_sub_criteria_id !== $aunSubCriteria->id, 404);
 
         $request->validate([
-            'file'    => 'required|file|max:20480',
-            'type'    => 'required|in:image,pdf',
+            'file'    => 'required|file|max:20480', // 20MB
+            'type'    => 'required|in:image,document',
             'caption' => 'nullable|string|max:255',
         ]);
 
@@ -128,10 +133,11 @@ class AunItemController extends Controller
         if ($type === 'image') {
             $request->validate(['file' => 'mimes:jpg,jpeg,png,webp,gif']);
         } else {
-            $request->validate(['file' => 'mimes:pdf']);
+            $request->validate(['file' => 'mimes:pdf,doc,docx,xls,xlsx,ppt,pptx']);
         }
 
-        $path = $file->store("aun/items/{$aunItem->id}/{$type}s", 'public');
+        $folder = $type === 'image' ? 'images' : 'documents';
+        $path   = $file->store("aun/items/{$aunItem->id}/{$folder}", 'public');
 
         $attachment = $aunItem->attachments()->create([
             'type'       => $type,

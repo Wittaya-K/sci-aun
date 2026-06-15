@@ -8,8 +8,6 @@ use Illuminate\Support\Facades\Storage;
 
 class AunItemAttachment extends Model
 {
-    protected $table = 'aun_item_attachments';  // ← เพิ่มบรรทัดนี้
-    
     protected $fillable = [
         'aun_item_id',
         'type',
@@ -46,8 +44,8 @@ class AunItemAttachment extends Model
         return $this->type === 'image';
     }
 
-    public function isPdf(): bool
+    public function isDocument(): bool
     {
-        return $this->type === 'pdf';
+        return $this->type === 'document';
     }
 }

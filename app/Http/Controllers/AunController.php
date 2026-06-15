@@ -16,14 +16,12 @@ class AunController extends Controller
      */
     public function show(int $number): Response
     {
-        // ดึง criteria ตาม number พร้อม sub-criteria และ items
         $criteria = AunCriteria::where('number', $number)
             ->with([
                 'subCriteria.items' => fn ($q) => $q->select('id', 'aun_sub_criteria_id', 'title', 'sort_order'),
             ])
             ->firstOrFail();
 
-        // ดึง sidebar (ทุก criteria สำหรับ navigation)
         $allCriteria = AunCriteria::orderBy('sort_order')
             ->select('id', 'number', 'title')
             ->get();
@@ -36,21 +34,19 @@ class AunController extends Controller
     }
 
     /**
-     * หน้า Item — แสดงเนื้อหา rich text + รูปภาพ + ปุ่ม More Information (PDF)
+     * หน้า Item — แสดงเนื้อหา rich text + รูปภาพ + เอกสารแนบ (ดาวน์โหลด)
      * GET /aun/{number}/items/{item}
      */
     public function showItem(int $number, AunItem $item): Response
     {
-        // ตรวจว่า item นี้อยู่ใน criteria ที่ถูกต้อง
         $criteria = AunCriteria::where('number', $number)->firstOrFail();
         $subCriteria = $item->subCriteria;
 
         abort_if($subCriteria->aun_criteria_id !== $criteria->id, 404);
 
-        // โหลด attachments แยก type
-        $item->load(['images', 'pdfs']);
+        // โหลด attachments แยก type: images + documents (pdf/word/excel/ppt)
+        $item->load(['images', 'documents']);
 
-        // sidebar
         $allCriteria = AunCriteria::orderBy('sort_order')
             ->select('id', 'number', 'title')
             ->get();
@@ -61,26 +57,6 @@ class AunController extends Controller
             'item'        => $item,
             'allCriteria' => $allCriteria,
             'currentNum'  => $number,
-        ]);
-    }
-
-    /**
-     * Stream PDF ใน browser
-     * GET /aun/{number}/items/{item}/pdf/{attachment}
-     */
-    public function streamPdf(int $number, AunItem $item, int $attachmentId)
-    {
-        $criteria = AunCriteria::where('number', $number)->firstOrFail();
-        abort_if($item->subCriteria->aun_criteria_id !== $criteria->id, 404);
-
-        $attachment = $item->pdfs()->findOrFail($attachmentId);
-
-        $path = storage_path('app/public/' . $attachment->path);
-        abort_if(! file_exists($path), 404);
-
-        return response()->file($path, [
-            'Content-Type'        => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="' . $attachment->filename . '"',
         ]);
     }
 }

@@ -16,8 +16,8 @@ Route::prefix('aun')->name('aun.')->group(function () {
         ->where('number', '[1-8]')->name('show');
     Route::get('/{number}/items/{item}', [AunController::class, 'showItem'])
         ->where('number', '[1-8]')->name('item.show');
-    Route::get('/{number}/items/{item}/pdf/{attachment}', [AunController::class, 'streamPdf'])
-        ->where('number', '[1-8]')->name('item.pdf');
+    // Route::get('/{number}/items/{item}/pdf/{attachment}', [AunController::class, 'streamPdf'])
+    //     ->where('number', '[1-8]')->name('item.pdf');
 });
 
 // ── Admin ────────────────────────────────────────────────────

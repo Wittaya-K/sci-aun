@@ -67,16 +67,19 @@
               <input type="file" class="hidden" accept="image/*" @change="uploadFile($event, 'image')" />
             </label>
           </div>
-          <!-- PDF upload -->
+
+          <!-- Document upload (PDF, Word, Excel, PowerPoint) -->
           <div>
-            <p class="mb-2 text-xs font-medium text-gray-500">PDF (More Information)</p>
-            <label class="flex flex-col items-center justify-center h-20 transition-colors border-2 border-gray-200 border-dashed rounded-lg cursor-pointer sm:h-24 hover:border-red-200 hover:bg-red-50">
+            <p class="mb-2 text-xs font-medium text-gray-500">เอกสาร (PDF, Word, Excel, PowerPoint)</p>
+            <label class="flex flex-col items-center justify-center h-20 transition-colors border-2 border-gray-200 border-dashed rounded-lg cursor-pointer sm:h-24 hover:border-primary-300 hover:bg-primary-50">
               <svg class="w-6 h-6 mb-1 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                       d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
               </svg>
-              <span class="text-xs text-gray-400">คลิกเพื่ออัพโหลด PDF</span>
-              <input type="file" class="hidden" accept="application/pdf" @change="uploadFile($event, 'pdf')" />
+              <span class="text-xs text-gray-400">คลิกเพื่ออัพโหลดเอกสาร</span>
+              <input type="file" class="hidden"
+                     accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx"
+                     @change="uploadFile($event, 'document')" />
             </label>
           </div>
         </div>
@@ -99,7 +102,6 @@
               <div v-for="att in images" :key="att.id"
                    class="relative overflow-hidden border border-gray-200 rounded-lg group bg-gray-50">
                 <img :src="att.url" :alt="att.caption || att.filename" class="object-cover w-full h-24" />
-                <!-- Mobile: always-visible delete button -->
                 <button type="button" @click="deleteAttachment(att)"
                         class="absolute p-1 text-white transition-opacity rounded-full top-1 right-1 bg-red-500/90 sm:opacity-0 sm:group-hover:opacity-100">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -111,23 +113,19 @@
             </div>
           </div>
 
-          <!-- PDFs -->
-          <div v-if="pdfs.length > 0">
-            <p class="mb-2 text-xs font-semibold tracking-widest text-gray-400 uppercase">PDF</p>
+          <!-- Documents (PDF / Word / Excel / PowerPoint) -->
+          <div v-if="documents.length > 0">
+            <p class="mb-2 text-xs font-semibold tracking-widest text-gray-400 uppercase">เอกสาร</p>
             <div class="space-y-2">
-              <div v-for="att in pdfs" :key="att.id"
+              <div v-for="att in documents" :key="att.id"
                    class="flex items-center gap-2 sm:gap-3 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg">
-                <div class="flex items-center justify-center flex-shrink-0 rounded w-7 h-7 bg-red-50">
-                  <svg class="w-4 h-4 text-red-400" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5z"/>
-                  </svg>
-                </div>
+                <FileIcon :filename="att.filename" size="sm" />
                 <div class="flex-1 min-w-0">
                   <p class="text-sm text-gray-700 truncate">{{ att.caption || att.filename }}</p>
                   <p class="text-xs text-gray-400 truncate">{{ att.filename }}</p>
                 </div>
-                <a :href="att.url" target="_blank"
-                   class="flex-shrink-0 text-xs text-primary-500 hover:text-primary-600">ดู</a>
+                <a :href="att.url" :download="att.filename"
+                   class="flex-shrink-0 text-xs text-primary-500 hover:text-primary-600">ดาวน์โหลด</a>
                 <button type="button" @click="deleteAttachment(att)"
                         class="flex-shrink-0 text-xs text-red-400 hover:text-red-600">ลบ</button>
               </div>
@@ -149,6 +147,7 @@ import { ref, computed } from 'vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 import AdminLayout from '@/Layouts/AdminLayout.vue'
 import TipTapEditor from '@/Components/TipTapEditor.vue'
+import FileIcon from '@/Components/FileIcon.vue'
 import axios from 'axios'
 
 const props = defineProps({
@@ -181,8 +180,8 @@ function submit() {
 const attachments = ref(props.item?.attachments || [])
 const uploading   = ref(false)
 
-const images = computed(() => attachments.value.filter(a => a.type === 'image'))
-const pdfs   = computed(() => attachments.value.filter(a => a.type === 'pdf'))
+const images    = computed(() => attachments.value.filter(a => a.type === 'image'))
+const documents = computed(() => attachments.value.filter(a => a.type === 'document'))
 
 async function uploadFile(event, type) {
   const file = event.target.files[0]
