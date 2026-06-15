@@ -12,8 +12,7 @@
           </svg>
         </button>
 
-        <!-- <img src="/images/psu-logo.jpg" alt="PSU" class="flex-shrink-0 w-auto h-7 sm:h-8" /> -->
-        <img src="/images/psu-logo.png" alt="PSU" class="flex-shrink-0 w-auto h-7 sm:h-8" />
+        <img src="/images/psu-logo.jpg" alt="PSU" class="flex-shrink-0 w-auto h-7 sm:h-8" />
         <div class="min-w-0">
           <div class="hidden text-xs leading-none text-gray-400 truncate sm:block">คณะวิทยาศาสตร์ มหาวิทยาลัยสงขลานครินทร์</div>
           <div class="text-xs font-semibold leading-tight truncate sm:text-sm text-primary-500">AUN-QA Admin</div>
@@ -113,21 +112,30 @@
       </aside>
 
       <!-- Main -->
-      <main class="flex-1 p-4 overflow-x-hidden overflow-y-auto sm:p-6">
-        <div v-if="$page.props.flash?.success"
-             class="flex items-center gap-2 px-4 py-3 mb-4 text-sm text-green-700 border border-green-200 rounded-lg bg-green-50">
-          <svg class="flex-shrink-0 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                  clip-rule="evenodd"/>
-          </svg>
-          {{ $page.props.flash.success }}
+      <main class="flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
+        <div class="flex-1 p-4 sm:p-6">
+          <div v-if="$page.props.flash?.success"
+               class="flex items-center gap-2 px-4 py-3 mb-4 text-sm text-green-700 border border-green-200 rounded-lg bg-green-50">
+            <svg class="flex-shrink-0 w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                    clip-rule="evenodd"/>
+            </svg>
+            {{ $page.props.flash.success }}
+          </div>
+          <div v-if="$page.props.flash?.error"
+               class="flex items-center gap-2 px-4 py-3 mb-4 text-sm text-red-700 border border-red-200 rounded-lg bg-red-50">
+            {{ $page.props.flash.error }}
+          </div>
+          <slot />
         </div>
-        <div v-if="$page.props.flash?.error"
-             class="flex items-center gap-2 px-4 py-3 mb-4 text-sm text-red-700 border border-red-200 rounded-lg bg-red-50">
-          {{ $page.props.flash.error }}
-        </div>
-        <slot />
+
+        <!-- Footer -->
+        <footer class="px-4 py-4 mt-auto bg-white border-t border-gray-200 sm:px-6">
+          <p class="text-xs leading-relaxed text-center text-gray-400">
+            สาขาวิทยาศาสตร์การคำนวณ คณะวิทยาศาสตร์ มหาวิทยาลัยสงขลานครินทร์
+          </p>
+        </footer>
       </main>
     </div>
   </div>
