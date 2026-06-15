@@ -1,2 +1,8 @@
 username: admin@example.com
 password: password
+
+username: klairung.s@psu.ac.th
+password: Qyy45gAXSpWSeuHd
+
+username: phontita.t@psu.ac.th
+password: pWi2SrBYxHVE5qXm
