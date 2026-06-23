@@ -240,7 +240,7 @@
         <div class="contact-section">
           <div class="contact-label">ติดต่อสอบถาม</div>
           <div class="contact-items">
-            <div class="contact-item"><div class="contact-item-icon">📞</div><span>0-7428-8620</span></div>
+            <div class="contact-item"><div class="contact-item-icon">📞</div><span>09-3639-8064</span></div>
             <div class="contact-item"><div class="contact-item-icon">✉️</div><span>wittaya.kh@psu.ac.th</span></div>
             <div class="contact-item"><div class="contact-item-icon">🏢</div><span>คณะวิทยาศาสตร์ มหาวิทยาลัยสงขลานครินทร์</span></div>
           </div>
