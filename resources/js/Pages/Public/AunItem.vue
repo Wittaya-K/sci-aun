@@ -61,31 +61,52 @@
         </div>
       </div>
 
-      <!-- More Information (เอกสารแนบ: PDF / Word / Excel / PowerPoint) -->
+      <!-- More Information -->
       <div v-if="item.documents && item.documents.length > 0" class="pt-5 mt-6 border-t border-gray-100 sm:mt-8 sm:pt-6">
         <h2 class="mb-3 text-xs font-semibold tracking-widest text-gray-400 uppercase">
           More Information
         </h2>
         <div class="space-y-2">
-          <a
-            v-for="doc in item.documents"
-            :key="doc.id"
-            :href="doc.url"
-            :download="doc.filename"
-            class="flex items-center gap-3 px-3 sm:px-4 py-3 bg-white border border-gray-200 rounded-lg hover:border-primary-300 hover:bg-primary-50 transition-colors group active:scale-[0.99]"
-          >
-            <FileIcon :filename="doc.filename" />
-            <div class="flex-1 min-w-0">
-              <p class="text-sm text-gray-700 truncate group-hover:text-primary-700">
-                {{ doc.caption || doc.filename }}
-              </p>
-              <p class="text-xs text-gray-400">ดาวน์โหลด</p>
-            </div>
-            <!-- Download icon -->
-            <svg class="flex-shrink-0 w-4 h-4 text-gray-300 group-hover:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-          </a>
+          <template v-for="doc in item.documents" :key="doc.id">
+
+            <!-- PDF → เปิดใน browser tab ใหม่ -->
+            <a v-if="isPdf(doc.filename)"
+               :href="doc.url"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="flex items-center gap-3 px-3 sm:px-4 py-3 bg-white border border-gray-200 rounded-lg hover:border-red-300 hover:bg-red-50 transition-colors group active:scale-[0.99]"
+            >
+              <FileIcon :filename="doc.filename" />
+              <div class="flex-1 min-w-0">
+                <p class="text-sm text-gray-700 truncate group-hover:text-red-700">
+                  {{ doc.caption || doc.filename }}
+                </p>
+                <p class="text-xs text-gray-400">เปิดใน browser</p>
+              </div>
+              <svg class="flex-shrink-0 w-4 h-4 text-gray-300 group-hover:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+
+            <!-- Word/Excel/PowerPoint → ดาวน์โหลด -->
+            <a v-else
+               :href="doc.url"
+               :download="doc.filename"
+               class="flex items-center gap-3 px-3 sm:px-4 py-3 bg-white border border-gray-200 rounded-lg hover:border-primary-300 hover:bg-primary-50 transition-colors group active:scale-[0.99]"
+            >
+              <FileIcon :filename="doc.filename" />
+              <div class="flex-1 min-w-0">
+                <p class="text-sm text-gray-700 truncate group-hover:text-primary-700">
+                  {{ doc.caption || doc.filename }}
+                </p>
+                <p class="text-xs text-gray-400">ดาวน์โหลด</p>
+              </div>
+              <svg class="flex-shrink-0 w-4 h-4 text-gray-300 group-hover:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+            </a>
+
+          </template>
         </div>
       </div>
 
@@ -105,10 +126,13 @@ defineProps({
   allCriteria: Array,
   currentNum:  Number,
 })
+
+function isPdf(filename) {
+  return filename.split('.').pop().toLowerCase() === 'pdf'
+}
 </script>
 
 <style scoped>
-/* Table styles สำหรับเนื้อหาที่ render จาก v-html */
 :deep(.aun-body table) {
   border-collapse: collapse;
   width: 100%;
@@ -131,8 +155,6 @@ defineProps({
 :deep(.aun-body tr:nth-child(even)) {
   background-color: #fafafa;
 }
-
-/* Mobile: ตารางเลื่อนแนวนอนได้ */
 @media (max-width: 640px) {
   :deep(.aun-body table) {
     display: block;

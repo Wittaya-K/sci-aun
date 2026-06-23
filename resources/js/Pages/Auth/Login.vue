@@ -197,9 +197,9 @@
 
           <form @submit.prevent="submit" style="width:100%">
             <div class="field">
-              <label class="field-label">Email</label>
+              <label class="field-label">อีเมล</label>
               <input v-model="form.email" type="email" required autofocus autocomplete="username"
-                     placeholder="your@email.com" class="field-input"
+                     placeholder="username@psu.ac.th" class="field-input"
                      :class="{ 'field-input--error': form.errors.email }"/>
               <p v-if="form.errors.email" class="field-error">{{ form.errors.email }}</p>
             </div>
