@@ -75,9 +75,34 @@
 
         <!-- Footer -->
         <footer class="px-4 py-4 mt-auto bg-white border-t border-gray-200 sm:px-6">
-          <p class="text-xs leading-relaxed text-center text-gray-400">
-            สาขาวิทยาศาสตร์การคำนวณ คณะวิทยาศาสตร์ มหาวิทยาลัยสงขลานครินทร์
-          </p>
+          <div class="flex flex-col items-center justify-center gap-3 text-xs text-center text-gray-400">
+
+            <!-- หน่วยงาน -->
+            <div>
+              สาขาวิทยาศาสตร์การคำนวณ คณะวิทยาศาสตร์ มหาวิทยาลัยสงขลานครินทร์
+            </div>
+
+            <!-- contact -->
+            <div class="flex flex-col items-center gap-2 sm:flex-row sm:gap-6">
+
+              <a href="tel:0936398064" class="flex items-center gap-1 hover:text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 0 0 2.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 0 1-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102A1.125 1.125 0 0 0 5.872 2.25H4.5A2.25 2.25 0 0 0 2.25 4.5v2.25Z" />
+                </svg>
+                09-3639-8064
+              </a>
+
+              <a href="mailto:wittaya.kh@psu.ac.th" class="flex items-center gap-1 hover:text-gray-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15A2.25 2.25 0 0 0 2.25 6.75m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91A2.25 2.25 0 0 1 2.25 6.993V6.75" />
+                </svg>
+                wittaya.kh@psu.ac.th
+              </a>
+
+            </div>
+          </div>
         </footer>
       </main>
 
